@@ -1,0 +1,184 @@
+% Report LaTeX Template
+% Full-featured: title page, abstract, TOC, numbered sections, headers/footers
+\documentclass[$if(fontsize)$$fontsize$$else$11pt$endif$,$if(papersize)$$papersize$paper$else$letterpaper$endif$]{article}
+
+\usepackage{ifxetex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{parskip}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{tocloft}
+\usepackage{setspace}
+
+\ifxetex
+  \usepackage{fontspec}
+  \setmainfont{FreeSans}[Ligatures=TeX]
+  \setsansfont{FreeSans}[Ligatures=TeX]
+  \setmonofont{FreeMono}[Scale=0.9]
+\else
+  \usepackage{helvet}
+  \renewcommand{\familydefault}{\sfdefault}
+\fi
+
+\geometry{
+  left=1.0in,
+  right=1.0in,
+  top=1.0in,
+  bottom=1.0in,
+  headheight=14pt
+}
+
+% Midnight Galaxy palette
+\definecolor{headingcolor}{RGB}{43,30,62}    % #2b1e3e Deep Purple
+\definecolor{rulecolor}{RGB}{164,144,194}    % #a490c2 Lavender
+\definecolor{linkcolor}{RGB}{74,78,143}      % #4a4e8f Cosmic Blue
+\definecolor{accentcolor}{RGB}{74,78,143}    % #4a4e8f Cosmic Blue
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=linkcolor,
+  urlcolor=linkcolor,
+  citecolor=linkcolor,
+  pdfborder={0 0 0},
+  pdftitle={$if(title)$$title$$endif$},
+  pdfauthor={$if(author)$$author$$endif$}
+}
+
+% ── Section headings ──────────────────────────────────────────────────────
+$if(numbersections)$
+\titleformat{\section}
+  {\large\bfseries\color{headingcolor}}
+  {\thesection.\ }{0em}{}
+  [\vspace{-0.3em}{\color{rulecolor}\hrule height 0.5pt}\vspace{0.2em}]
+
+\titleformat{\subsection}
+  {\normalsize\bfseries\color{headingcolor}}
+  {\thesubsection.\ }{0em}{}
+
+\titleformat{\subsubsection}
+  {\normalsize\itshape\color{headingcolor}}
+  {\thesubsubsection.\ }{0em}{}
+$else$
+\titleformat{\section}
+  {\large\bfseries\color{headingcolor}}
+  {}{0em}{}
+  [\vspace{-0.3em}{\color{rulecolor}\hrule height 0.5pt}\vspace{0.2em}]
+
+\titleformat{\subsection}
+  {\normalsize\bfseries\color{headingcolor}}
+  {}{0em}{}
+
+\titleformat{\subsubsection}
+  {\normalsize\itshape\color{headingcolor}}
+  {}{0em}{}
+
+\setcounter{secnumdepth}{0}
+$endif$
+
+\titlespacing*{\section}{0pt}{1.5em}{0.6em}
+\titlespacing*{\subsection}{0pt}{1.0em}{0.3em}
+\titlespacing*{\subsubsection}{0pt}{0.6em}{0.2em}
+
+% ── Lists ─────────────────────────────────────────────────────────────────
+\setlist{nosep, topsep=0.3em, itemsep=0.3em}
+\setlist[itemize]{leftmargin=1.5em}
+\setlist[enumerate]{leftmargin=1.5em}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% ── Tables ────────────────────────────────────────────────────────────────
+\renewcommand{\arraystretch}{1.3}
+\captionsetup{font=small, labelfont=bf, labelsep=period}
+
+% ── Code blocks ───────────────────────────────────────────────────────────
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+% ── Paragraph style ───────────────────────────────────────────────────────
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7em}
+\linespread{1.2}
+\widowpenalty=10000
+\clubpenalty=10000
+
+% ── Header / footer (body pages) ──────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small\itshape $if(title)$$title$$endif$}
+\fancyhead[R]{\small\itshape $if(author)$$author$$endif$}
+\fancyfoot[C]{\small Page \thepage\ of \pageref{LastPage}}
+
+% Title page / plain pages: footer only
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[C]{\small\thepage}
+}
+
+% ── TOC style ─────────────────────────────────────────────────────────────
+\renewcommand{\cftsecfont}{\bfseries}
+\renewcommand{\cftsecpagefont}{\bfseries}
+\setlength{\cftbeforesecskip}{0.4em}
+\setlength{\cftbeforesubsecskip}{0.2em}
+
+% ── Footnotes ─────────────────────────────────────────────────────────────
+\usepackage[hang, flushmargin]{footmisc}
+
+% ══════════════════════════════════════════════════════════════════════════
+\begin{document}
+
+% ── Title page ────────────────────────────────────────────────────────────
+\begin{titlepage}
+  \begin{center}
+    \vspace*{2cm}
+    {\LARGE\bfseries\color{headingcolor} $if(title)$$title$$endif$}\\[1em]
+    $if(subtitle)${\large\itshape $subtitle$}\\[1em]$endif$
+    \vspace{1cm}
+    {\color{rulecolor}\hrule height 1pt}
+    \vspace{1cm}
+    {\large $if(author)$$author$$endif$}\\[0.5em]
+    $if(date)${\normalsize $date$}$endif$
+    \vfill
+    $if(organization)${\normalsize $organization$}$endif$
+  \end{center}
+\end{titlepage}
+
+% ── Abstract ──────────────────────────────────────────────────────────────
+$if(abstract)$
+\begin{abstract}
+\noindent $abstract$
+\end{abstract}
+\newpage
+$endif$
+
+% ── Table of contents ─────────────────────────────────────────────────────
+$if(toc)$
+\tableofcontents
+\newpage
+$endif$
+
+% ── Body ──────────────────────────────────────────────────────────────────
+$body$
+
+% ── Bibliography ──────────────────────────────────────────────────────────
+$if(bibliography)$
+\newpage
+$endif$
+
+\end{document}

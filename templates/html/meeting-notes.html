@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>$if(title)$$title$$else$Meeting Notes$endif$$if(date)$ — $date$$endif$</title>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --heading-color: #2b1e3e;
+      --accent-color:  #4a4e8f;
+      --rule-color:    #a490c2;
+      --text-color:    #1a1a1a;
+      --muted-color:   #786a96;
+      --meta-bg:       #f0eef5;
+      --surface-color: #ffffff;
+      --font-sans:     'FreeSans', 'Liberation Sans', Arial, sans-serif;
+      --font-mono:     'FreeMono', 'Consolas', 'Menlo', 'Courier New', monospace;
+    }
+
+    html { font-size: 15px; }
+
+    body {
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      color: var(--text-color);
+      background: #f0eef5;
+    }
+
+    .page {
+      max-width: 780px;
+      margin: 2rem auto;
+      background: var(--surface-color);
+      box-shadow: 0 2px 18px rgba(0,0,0,0.07);
+    }
+
+    /* ── Header ──────────────────────────────────────────────────── */
+    .meeting-header {
+      background: var(--heading-color);
+      color: white;
+      padding: 1.5rem 2.5rem;
+    }
+
+    .meeting-header h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      margin: 0;
+      border: none;
+    }
+
+    .meeting-header .header-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #a490c2;
+      margin-bottom: 0.3rem;
+    }
+
+    /* ── Metadata block ──────────────────────────────────────────── */
+    .meeting-meta {
+      background: var(--meta-bg);
+      border-bottom: 1px solid var(--rule-color);
+      padding: 1rem 2.5rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.3rem 1.2rem;
+      font-size: 0.875rem;
+    }
+
+    .meta-label {
+      font-weight: 600;
+      color: var(--accent-color);
+      white-space: nowrap;
+    }
+
+    .meta-value { color: var(--text-color); }
+
+    /* ── Body content ────────────────────────────────────────────── */
+    .content { padding: 1.5rem 2.5rem 2.5rem; }
+
+    h2 {
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-color);
+      margin-top: 1.8em;
+      margin-bottom: 0.6em;
+      padding-bottom: 0.3em;
+      border-bottom: 1px solid var(--rule-color);
+    }
+
+    h3 {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: var(--heading-color);
+      margin-top: 1.2em;
+      margin-bottom: 0.4em;
+    }
+
+    p { margin-bottom: 0.7em; }
+
+    ul, ol { padding-left: 1.5em; margin-bottom: 0.7em; }
+    li { margin-bottom: 0.25em; }
+
+    /* Checkboxes for action items */
+    ul li input[type="checkbox"] { margin-right: 0.4em; }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: var(--meta-bg);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1em 0;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: var(--heading-color);
+      color: white;
+      padding: 0.5em 0.8em;
+      text-align: left;
+    }
+
+    td { padding: 0.4em 0.8em; border-bottom: 1px solid var(--rule-color); }
+
+    hr { border: none; border-top: 1px solid var(--rule-color); margin: 1.5em 0; }
+
+    blockquote {
+      border-left: 3px solid var(--accent-color);
+      padding: 0.4em 1em;
+      color: var(--muted-color);
+      font-style: italic;
+      margin: 0.8em 0;
+    }
+
+    strong { color: var(--heading-color); }
+
+    @media print {
+      body { background: white; }
+      .page { box-shadow: none; margin: 0; }
+      .meeting-header { background: white; color: var(--heading-color); }
+      .meeting-header h1, .meeting-header .header-tag { color: var(--heading-color); }
+      .content { padding: 1rem 1in; }
+      .meeting-meta { padding: 0.5rem 1in; }
+    }
+
+    @media (max-width: 600px) {
+      .page { margin: 0; }
+      .meeting-header, .meeting-meta, .content { padding-left: 1.2rem; padding-right: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="meeting-header">
+    <div class="header-tag">Meeting Notes</div>
+    <h1>$if(title)$$title$$else$Untitled Meeting$endif$</h1>
+  </div>
+
+  <div class="meeting-meta">
+    $if(date)$<span class="meta-label">Date</span><span class="meta-value">$date$</span>$endif$
+    $if(location)$<span class="meta-label">Location</span><span class="meta-value">$location$</span>$endif$
+    $if(attendees)$<span class="meta-label">Attendees</span><span class="meta-value">$for(attendees)$$attendees$$sep$, $endfor$</span>$endif$
+  </div>
+
+  <div class="content">
+    $body$
+  </div>
+
+</div>
+</body>
+</html>

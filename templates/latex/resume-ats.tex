@@ -1,0 +1,180 @@
+% ATS-Optimized LaTeX Resume Template
+% Professional, readable, and machine-parseable
+\documentclass[9pt,letterpaper]{article}
+
+% Essential Packages
+\usepackage{ifxetex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{microtype} % Improved typography and spacing
+\usepackage{needspace} % Prevent awkward page breaks
+\usepackage{multicol} % Multi-column layout for compact sections
+
+% Professional sans-serif font - clean and modern for ATS
+\ifxetex
+  \usepackage{fontspec}
+  % Open Sans - professional and highly readable
+  \setmainfont{Open Sans}[Scale=1.0,Ligatures=TeX]
+\else
+  % Fallback for pdflatex - use Helvetica (Arial-like)
+  \usepackage{helvet}
+  \renewcommand{\familydefault}{\sfdefault}
+\fi
+
+% Page margins - minimum acceptable for professional resumes
+\geometry{
+    letterpaper,
+    left=0.4in,
+    right=0.4in,
+    top=0.4in,
+    bottom=0.4in
+}
+
+% Remove page numbers
+\pagestyle{empty}
+
+% Prevent widows and orphans
+\widowpenalty=10000
+\clubpenalty=10000
+
+% Better paragraph breaking for ragged right
+\tolerance=2000
+\emergencystretch=3em
+\hfuzz=0.5pt
+\rightskip=0pt plus 3em  % Allow flexible right margin for better line breaks
+
+% Color mode toggle - set to false for maximum ATS compatibility
+\newif\ifusecolor
+\usecolorfalse  % Enforce black text for ATS
+
+% Define professional colors (subtle, ATS-safe)
+\ifusecolor
+  \definecolor{headercolor}{RGB}{44,62,80}
+  \definecolor{textcolor}{RGB}{26,37,47}
+  \definecolor{linkcolor}{RGB}{44,62,80}
+\else
+  % Black & white mode for maximum ATS compatibility
+  \definecolor{headercolor}{RGB}{0,0,0}
+  \definecolor{textcolor}{RGB}{0,0,0}
+  \definecolor{linkcolor}{RGB}{0,0,0}
+\fi
+
+% Hyperlink setup - clean and professional
+\hypersetup{
+    colorlinks=false,
+    hidelinks,
+    pdfborder={0 0 0},
+    pdftitle={Resume - $author$},
+    pdfauthor={$author$},
+    pdfsubject={Professional Resume},
+    pdfcreator={Pandoc with XeLaTeX},
+    pdfproducer={LaTeX}
+}
+
+% Section formatting - clear hierarchy (better for ATS)
+\titleformat{\section}
+    {\fontsize{11}{13}\selectfont\bfseries}
+    {}
+    {0em}
+    {}
+    [\vspace{-0.4em}\rule{\linewidth}{1pt}\vspace{0.1em}]
+
+\titlespacing*{\section}{0pt}{0.5em}{0.25em}
+
+% Manual page break control - no automatic enforcement
+% Users can add \pagebreak or \nopagebreak in markdown if needed
+% \let\oldsection\section
+% \renewcommand{\section}[1]{\needspace{2\baselineskip}\oldsection{#1}}
+
+% Subsection formatting - job titles (enhanced with bold)
+\titleformat{\subsection}
+    {\normalsize\bfseries}
+    {}
+    {0em}
+    {}
+
+\titlespacing*{\subsection}{0pt}{0.25em}{0.05em}
+
+% Manual page break control - no automatic enforcement
+% Users can add \pagebreak or \nopagebreak in markdown if needed
+% \let\oldsubsection\subsection
+% \renewcommand{\subsection}[1]{\needspace{3\baselineskip}\oldsubsection{#1}}
+
+% Subsubsection formatting - company details (enhanced with italic for distinction)
+\titleformat{\subsubsection}
+    {\normalsize\itshape}
+    {}
+    {0em}
+    {}
+
+\titlespacing*{\subsubsection}{0pt}{0.05em}{0.1em}
+
+% List formatting - minimum spacing for maximum compactness
+\setlist[itemize]{
+    nosep,
+    leftmargin=1.0em,
+    itemsep=0.15em,
+    topsep=0.1em,
+    parsep=0pt,
+    before={\vspace{0.05em}},
+    after={\vspace{0.15em}}
+}
+
+% Use proper bullet points - professional and still ATS-friendly
+\renewcommand{\labelitemi}{\textbullet}
+
+% Pandoc compatibility
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Paragraph formatting
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15em}
+
+% Text alignment - left-aligned (ragged right) for consistent word spacing
+\raggedright
+
+% Line spacing - optimized for compact layout (minimum recommended for resumes)
+\linespread{1.0}
+
+% Better hyphenation - more aggressive for ragged right
+\hyphenpenalty=7500
+\exhyphenpenalty=7500
+
+% Prevent overfull boxes (less aggressive for ragged right)
+\fussy
+
+% No custom commands needed - keep it simple for ATS
+
+\begin{document}
+
+% Suppress hyphenation in the header
+\hyphenpenalty=10000
+
+% Header - Professional and centered
+\begin{center}
+    {\fontsize{14}{16}\selectfont\bfseries $author$}
+    
+    \vspace{0.15em}
+    
+    {\fontsize{9}{11}\selectfont
+    $if(location)$$location$$endif$$if(email)$ \textperiodcentered{} \href{mailto:$email$}{$email$}$endif$$if(phone)$ \textperiodcentered{} $phone$$endif$$if(nationality)$ \textperiodcentered{} Nationality: $nationality$$endif$$if(website)$ \textperiodcentered{} Website: \href{https://$website$}{$website$}$endif$$if(linkedin)$ \textperiodcentered{} LinkedIn: \href{https://$linkedin$}{$linkedin$}$endif$$if(github)$ \textperiodcentered{} GitHub: \href{https://$github$}{$github$}$endif$
+    }
+\end{center}
+
+% Reset hyphenation for body
+\hyphenpenalty=5000
+
+\vspace{0.1em}
+{\hrule height 1pt}
+\vspace{0.35em}
+
+% Body content
+$body$
+
+\end{document}

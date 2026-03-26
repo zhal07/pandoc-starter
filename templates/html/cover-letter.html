@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cover Letter — $if(author)$$author$$endif$$if(company)$ / $company$$endif$</title>
+  $if(author)$<meta name="author" content="$author$">$endif$
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --heading-color: #2b1e3e;
+      --accent-color:  #4a4e8f;
+      --rule-color:    #a490c2;
+      --text-color:    #1a1a1a;
+      --muted-color:   #786a96;
+      --font-serif:    'FreeSans', 'Liberation Sans', Arial, sans-serif;
+      --font-sans:     'FreeSans', 'Liberation Sans', Arial, sans-serif;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text-color);
+      background: #f0eef5;
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 2.5rem auto;
+      background: white;
+      padding: 3rem 3.5rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+
+    /* ── Sender block ─────────────────────────────────────────────── */
+    .sender {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1.5px solid var(--heading-color);
+    }
+
+    .sender-name {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--heading-color);
+      margin-bottom: 0.25rem;
+    }
+
+    .sender-contact {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--muted-color);
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .sender-contact a { color: var(--muted-color); text-decoration: none; }
+    .sender-contact a:hover { text-decoration: underline; }
+    .sep { color: var(--rule-color); }
+
+    /* ── Date ────────────────────────────────────────────────────── */
+    .letter-date {
+      margin-bottom: 1.2rem;
+      color: var(--muted-color);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+    }
+
+    /* ── Recipient ───────────────────────────────────────────────── */
+    .recipient {
+      margin-bottom: 1.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-color);
+    }
+
+    .re-line {
+      font-weight: bold;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ── Body ────────────────────────────────────────────────────── */
+    .letter-body p {
+      margin-bottom: 1em;
+      text-align: left;
+    }
+
+    /* ── Closing ─────────────────────────────────────────────────── */
+    .closing {
+      margin-top: 2rem;
+      font-family: var(--font-sans);
+    }
+
+    .closing-text { margin-bottom: 2.5rem; }
+
+    .signature {
+      font-weight: bold;
+      color: var(--heading-color);
+    }
+
+    /* ── Print ───────────────────────────────────────────────────── */
+    @media print {
+      body { background: white; }
+      .page { box-shadow: none; margin: 0; padding: 1in 1.25in; }
+    }
+
+    @media (max-width: 640px) {
+      .page { padding: 1.5rem; margin: 0; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="sender">
+    <div class="sender-name">$if(author)$$author$$endif$</div>
+    <div class="sender-contact">
+      $if(location)$<span>$location$</span>$endif$
+      $if(email)$<span class="sep">·</span><a href="mailto:$email$">$email$</a>$endif$
+      $if(phone)$<span class="sep">·</span><span>$phone$</span>$endif$
+      $if(website)$<span class="sep">·</span><a href="https://$website$" rel="noopener noreferrer">$website$</a>$endif$
+      $if(linkedin)$<span class="sep">·</span><a href="https://$linkedin$" rel="noopener noreferrer">$linkedin$</a>$endif$
+    </div>
+  </div>
+
+  $if(date)$<div class="letter-date">$date$</div>$endif$
+
+  <div class="recipient">
+    $if(recipient)$<div>$recipient$</div>$endif$
+    $if(recipient-title)$<div>$recipient-title$</div>$endif$
+    $if(company)$<div>$company$</div>$endif$
+    $if(recipient-address)$<div>$recipient-address$</div>$endif$
+  </div>
+
+  $if(position)$<div class="re-line">Re: $position$</div>$endif$
+
+  <div class="letter-body">
+    $body$
+  </div>
+
+  <div class="closing">
+    <div class="closing-text">$if(closing)$$closing$$else$Sincerely$endif$,</div>
+    <div class="signature">$if(author)$$author$$endif$</div>
+  </div>
+
+</div>
+</body>
+</html>

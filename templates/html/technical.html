@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  $if(title)$<title>$title$$if(version)$ v$version$$endif$$if(author)$ — $author$$endif$</title>$endif$
+  $if(author)$<meta name="author" content="$author$">$endif$
+
+  $if(math)$$math$$endif$
+
+  $if(highlighting-css)$
+  <style>$highlighting-css$</style>
+  $endif$
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --heading-color: #2b1e3e;
+      --accent-color:  #4a4e8f;
+      --rule-color:    #a490c2;
+      --text-color:    #1a1a1a;
+      --muted-color:   #786a96;
+      --bg-color:      #f0eef5;
+      --surface-color: #ffffff;
+      --sidebar-width: 240px;
+      --code-bg:       #f0eef5;
+      --note-bg:       #e6e6fa;
+      --note-border:   #4a4e8f;
+      --warn-bg:       #fff8ea;
+      --warn-border:   #cc7700;
+      --tip-bg:        #eafaf3;
+      --tip-border:    #00a060;
+      --font-sans:     'FreeSans', 'Liberation Sans', Arial, sans-serif;
+      --font-serif:    'FreeSans', 'Liberation Sans', Arial, sans-serif;
+      --font-mono:     'FreeMono', 'Consolas', 'Menlo', 'Courier New', monospace;
+    }
+
+    html { font-size: 15px; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      line-height: 1.7;
+      color: var(--text-color);
+      background: var(--bg-color);
+    }
+
+    /* ── Layout ──────────────────────────────────────────────────── */
+    .layout {
+      display: flex;
+      max-width: 1100px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar TOC ─────────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      background: var(--heading-color);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 1.5rem 0;
+    }
+
+    .sidebar-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #a490c2;
+      padding: 0 1.2rem 0.6rem;
+    }
+
+    .sidebar nav#TOC { background: none; border: none; padding: 0; }
+    .sidebar nav#TOC::before { display: none; }
+    .sidebar nav#TOC ul { list-style: none; padding-left: 0; margin: 0; }
+    .sidebar nav#TOC ul ul { padding-left: 0.8em; border-left: 1px solid rgba(164,144,194,0.4); margin: 0.2em 0; }
+    .sidebar nav#TOC li { margin: 0; }
+
+    .sidebar nav#TOC a {
+      display: block;
+      padding: 0.3em 1.2rem;
+      color: #e6e6fa;
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .sidebar nav#TOC a:hover {
+      color: #ffffff;
+      background: rgba(164,144,194,0.15);
+    }
+
+    /* ── Main content ────────────────────────────────────────────── */
+    .main {
+      flex: 1;
+      min-width: 0;
+      background: var(--surface-color);
+      box-shadow: 2px 0 12px rgba(0,0,0,0.06) inset;
+    }
+
+    /* ── Doc header bar ──────────────────────────────────────────── */
+    .doc-header {
+      background: var(--heading-color);
+      color: white;
+      padding: 1.5rem 2.5rem;
+      border-bottom: 3px solid #a490c2;
+    }
+
+    .doc-header h1 {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 0.25rem;
+      border: none;
+    }
+
+    .doc-meta {
+      font-size: 0.8rem;
+      color: #a490c2;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .version-badge {
+      background: #e6e6fa;
+      color: #2b1e3e;
+      font-weight: 700;
+      padding: 0.1em 0.5em;
+      border-radius: 3px;
+      font-size: 0.75rem;
+    }
+
+    /* ── Content area ────────────────────────────────────────────── */
+    .content { padding: 2rem 2.5rem 3rem; }
+
+    h1, h2, h3, h4 {
+      color: var(--heading-color);
+      line-height: 1.3;
+      margin-top: 1.8em;
+      margin-bottom: 0.5em;
+    }
+
+    h1 { font-size: 1.5rem; border-bottom: 1.5px solid var(--rule-color); padding-bottom: 0.3em; }
+    h2 { font-size: 1.25rem; border-bottom: 1px solid var(--rule-color); padding-bottom: 0.2em; }
+    h3 { font-size: 1.05rem; }
+    h4 { font-size: 0.95rem; font-style: italic; }
+
+    p { margin-bottom: 0.8em; }
+    a { color: var(--accent-color); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    ul, ol { padding-left: 1.8em; margin-bottom: 0.8em; }
+    li { margin-bottom: 0.3em; }
+
+    /* ── Code ────────────────────────────────────────────────────── */
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.875em;
+      background: var(--code-bg);
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      color: #2b1e3e;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--rule-color);
+      border-left: 3px solid var(--accent-color);
+      border-radius: 0 4px 4px 0;
+      padding: 1em 1.2em;
+      overflow-x: auto;
+      margin: 1.2em 0;
+      font-size: 0.875em;
+    }
+
+    pre code { background: none; padding: 0; color: inherit; }
+
+    /* ── Admonition boxes ────────────────────────────────────────── */
+    .note, .warning, .tip {
+      padding: 0.8em 1.2em;
+      margin: 1.2em 0;
+      border-left-width: 4px;
+      border-left-style: solid;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .note    { background: var(--note-bg); border-color: var(--note-border); }
+    .warning { background: var(--warn-bg); border-color: var(--warn-border); }
+    .tip     { background: var(--tip-bg);  border-color: var(--tip-border);  }
+
+    .note::before, .warning::before, .tip::before {
+      display: block;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4em;
+    }
+
+    .note::before    { content: "Note";    color: var(--note-border); }
+    .warning::before { content: "Warning"; color: var(--warn-border); }
+    .tip::before     { content: "Tip";     color: var(--tip-border);  }
+
+    /* ── Tables ──────────────────────────────────────────────────── */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1.2em 0;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: var(--heading-color);
+      color: white;
+      padding: 0.5em 0.8em;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    td { padding: 0.45em 0.8em; border-bottom: 1px solid var(--rule-color); }
+    tr:nth-child(even) td { background: var(--code-bg); }
+
+    blockquote {
+      border-left: 3px solid var(--accent-color);
+      padding: 0.5em 1em;
+      color: var(--muted-color);
+      font-style: italic;
+      margin: 1em 0;
+    }
+
+    hr { border: none; border-top: 1px solid var(--rule-color); margin: 2em 0; }
+
+    .footnotes {
+      border-top: 1px solid var(--rule-color);
+      margin-top: 3em;
+      padding-top: 1em;
+      font-size: 0.85rem;
+      color: var(--muted-color);
+    }
+
+    /* ── No sidebar mode (small screens) ────────────────────────── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .doc-header, .content { padding-left: 1.2rem; padding-right: 1.2rem; }
+    }
+
+    @media print {
+      body { background: white; }
+      .sidebar { display: none; }
+      .layout { display: block; }
+      .doc-header { background: white; color: var(--heading-color); border-bottom: 2px solid var(--heading-color); }
+      .doc-header h1 { color: var(--heading-color); }
+      .doc-meta { color: var(--muted-color); }
+      .content { padding: 1rem 1in; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  $if(toc)$
+  <aside class="sidebar">
+    <div class="sidebar-title">Contents</div>
+    $table-of-contents$
+  </aside>
+  $endif$
+
+  <div class="main">
+    <div class="doc-header">
+      <h1>
+        $if(title)$$title$$endif$
+        $if(version)$<span class="version-badge">v$version$</span>$endif$
+      </h1>
+      <div class="doc-meta">
+        $if(author)$<span>$author$</span>$endif$
+        $if(date)$<span>$date$</span>$endif$
+      </div>
+    </div>
+
+    <div class="content">
+      $if(abstract)$
+      <blockquote><em>$abstract$</em></blockquote>
+      $endif$
+
+      $body$
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

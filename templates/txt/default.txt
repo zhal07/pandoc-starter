@@ -1,0 +1,7 @@
+$if(title)$$title$$endif$
+$if(subtitle)$$subtitle$$endif$
+$if(author)$$author$$endif$$if(author)$$if(date)$ | $endif$$endif$$if(date)$$date$$endif$
+
+================================================================================
+
+$body$

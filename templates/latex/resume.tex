@@ -1,0 +1,189 @@
+% Premium Visual LaTeX Resume Template
+% Enhanced with colors and visual elements for direct recruiter use
+\documentclass[9pt,letterpaper]{article}
+
+% Essential Packages
+\usepackage{ifxetex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{microtype} % Improved typography and spacing
+\usepackage{needspace} % Prevent awkward page breaks
+\usepackage{multicol} % Multi-column layout for compact sections
+\usepackage{tikz} % For visual enhancements
+\usepackage{fontawesome5} % For icons in header
+
+% Midnight Galaxy font - FreeSans
+\ifxetex
+  \usepackage{fontspec}
+  \setmainfont{FreeSans}[Scale=1.0,Ligatures=TeX]
+  \setsansfont{FreeSans}[Ligatures=TeX]
+\else
+  \usepackage{helvet}
+  \renewcommand{\familydefault}{\sfdefault}
+\fi
+
+% Page margins - minimum acceptable for professional resumes
+\geometry{
+    letterpaper,
+    left=0.4in,
+    right=0.4in,
+    top=0.4in,
+    bottom=0.4in
+}
+
+% Remove page numbers
+\pagestyle{empty}
+
+% Prevent widows and orphans
+\widowpenalty=10000
+\clubpenalty=10000
+
+% Better paragraph breaking for ragged right
+\tolerance=2000
+\emergencystretch=3em
+\hfuzz=0.5pt
+\rightskip=0pt plus 3em
+
+% Midnight Galaxy palette
+\definecolor{primarycolor}{RGB}{43,30,62}        % #2b1e3e Deep Purple (name, icons, section headers, lines, bullets)
+\definecolor{accentcolor}{RGB}{74,78,143}        % #4a4e8f Cosmic Blue (accent elements)
+\definecolor{textcolor}{RGB}{0,0,0}              % Pure black (body text, job titles)
+\definecolor{lightgray}{RGB}{230,230,250}        % #e6e6fa Silver (light background)
+\definecolor{mediumgray}{RGB}{164,144,194}       % #a490c2 Lavender (separators in header)
+
+% Hyperlink setup - functional but not visually distinct
+\hypersetup{
+    colorlinks=false,
+    hidelinks,
+    pdfborder={0 0 0},
+    pdftitle={Resume - $author$},
+    pdfauthor={$author$},
+    pdfsubject={Professional Resume},
+    pdfcreator={Pandoc with XeLaTeX},
+    pdfproducer={LaTeX}
+}
+
+% Section formatting - with subtle background bar and colored line for modern look
+\newcommand{\sectionbox}[1]{%
+    \tikz[baseline=(title.base)]{%
+        \node[fill=lightgray!40, inner xsep=2pt, inner ysep=2pt, anchor=base west, rounded corners=1pt] (title) {#1};%
+    }%
+}
+\titleformat{\section}
+    {\fontsize{11}{13}\selectfont\bfseries\color{primarycolor}}
+    {}
+    {0em}
+    {\sectionbox}
+    [\vspace{0.05em}{\color{primarycolor}\hrule height 0.5pt}\vspace{0.2em}]
+
+\titlespacing*{\section}{0pt}{0.5em}{0.25em}
+
+% Manual page break control - no automatic enforcement
+% Users can add \pagebreak or \nopagebreak in markdown if needed
+% \let\oldsection\section
+% \renewcommand{\section}[1]{\needspace{2\baselineskip}\oldsection{#1}}
+
+% Subsection formatting - job titles without forced bold
+\titleformat{\subsection}
+    {\normalsize\color{textcolor}}
+    {}
+    {0em}
+    {}
+
+\titlespacing*{\subsection}{0pt}{0.25em}{0.05em}
+
+% Manual page break control - no automatic enforcement
+% Users can add \pagebreak or \nopagebreak in markdown if needed
+% \let\oldsubsection\subsection
+% \renewcommand{\subsection}[1]{\needspace{3\baselineskip}\oldsubsection{#1}}
+
+% Subsubsection formatting - company details with italic and color
+\titleformat{\subsubsection}
+    {\normalsize\itshape\color{textcolor}}
+    {}
+    {0em}
+    {}
+
+\titlespacing*{\subsubsection}{0pt}{0.05em}{0.1em}
+
+% List formatting - minimum spacing for maximum compactness
+\setlist[itemize]{
+    nosep,
+    leftmargin=1.0em,
+    itemsep=0.15em,
+    topsep=0.1em,
+    parsep=0pt,
+    before={\vspace{0.05em}},
+    after={\vspace{0.15em}}
+}
+
+% Use black bullet points - slightly larger for better balance
+\renewcommand{\labelitemi}{\raisebox{0.05em}{\scalebox{1.15}{\textbullet}}}
+
+% Pandoc compatibility
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Paragraph formatting
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15em}
+
+% Text alignment - left-aligned (ragged right) for consistent word spacing
+\raggedright
+
+% Line spacing - optimized for compact layout (minimum recommended for resumes)
+\linespread{1.0}
+
+% Better hyphenation
+\hyphenpenalty=7500
+\exhyphenpenalty=7500
+
+% Prevent overfull boxes
+\fussy
+
+% Custom command to color mid dots in header
+\newcommand{\bluedot}{{\color{primarycolor}•}}
+
+% Make en dashes use light weight for better appearance
+\usepackage{newunicodechar}
+\newunicodechar{–}{{\fontseries{l}\selectfont –}}
+
+\begin{document}
+
+% Suppress hyphenation in the header
+\hyphenpenalty=10000
+
+% Header - Compact single-line layout with name and contact info
+\noindent
+\begin{minipage}[t]{0.30\textwidth}
+    \raggedright
+    {\fontsize{15}{17}\selectfont\bfseries\color{primarycolor} $author$}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.69\textwidth}
+    \raggedleft
+    {\fontsize{8.5}{10.5}\selectfont\color{textcolor}
+    $if(location)${\color{primarycolor}\faMapMarker*}\hspace{0.15em} $location$$endif$$if(email)$ \bluedot{} {\color{primarycolor}\faEnvelope}\hspace{0.15em} \href{mailto:$email$}{$email$}$endif$$if(phone)$ \bluedot{} {\color{primarycolor}\faPhone}\hspace{0.15em} $phone$$endif$\\[0.1em]
+    $if(website)${\color{primarycolor}\faGlobe}\hspace{0.15em} \href{https://$website$}{$website$}$endif$$if(linkedin)$$if(website)$ \bluedot{} $endif${\color{primarycolor}\faLinkedin}\hspace{0.15em} \href{https://$linkedin$}{$linkedin$}$endif$$if(github)$$if(website)$$if(linkedin)$ \bluedot{} $endif$$endif${\color{primarycolor}\faGithub}\hspace{0.15em} \href{https://$github$}{$github$}$endif$
+    }
+\end{minipage}
+
+% Reset hyphenation for body
+\hyphenpenalty=5000
+
+% Double-line header divider for elegant separation
+\vspace{0.15em}
+{\color{primarycolor}\hrule height 0.75pt}
+\vspace{0.05em}
+{\color{mediumgray}\hrule height 0.25pt}
+\vspace{0.3em}
+
+% Body content
+$body$
+
+\end{document}

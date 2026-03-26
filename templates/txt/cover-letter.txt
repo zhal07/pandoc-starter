@@ -1,0 +1,22 @@
+$author$
+$if(location)$$location$$endif$
+$if(email)$$email$$endif$
+$if(phone)$$phone$$endif$
+$if(website)$$website$$endif$
+$if(linkedin)$$linkedin$$endif$
+$if(date)$$date$$endif$
+
+================================================================================
+
+$if(recipient)$$recipient$$endif$
+$if(recipient-title)$$recipient-title$$endif$
+$if(company)$$company$$endif$
+$if(recipient-address)$$recipient-address$$endif$
+
+$if(position)$Re: $position$$endif$
+
+$body$
+
+$if(closing)$$closing$$else$Sincerely$endif$,
+
+$author$

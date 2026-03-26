@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice $if(invoice-number)$$invoice-number$$endif$$if(author)$ — $author$$endif$</title>
+  $if(author)$<meta name="author" content="$author$">$endif$
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --heading-color: #2b1e3e;
+      --accent-color:  #4a4e8f;
+      --rule-color:    #a490c2;
+      --text-color:    #1a1a1a;
+      --muted-color:   #786a96;
+      --bg-color:      #f0eef5;
+      --surface-color: #ffffff;
+      --table-header:  #2b1e3e;
+      --row-alt:       #f5f3fa;
+      --total-bg:      #e6e6fa;
+      --font-sans:     'FreeSans', 'Liberation Sans', Arial, sans-serif;
+      --font-mono:     'FreeMono', 'Consolas', 'Menlo', 'Courier New', monospace;
+    }
+
+    html { font-size: 15px; }
+
+    body {
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      color: var(--text-color);
+      background: var(--bg-color);
+    }
+
+    .page {
+      max-width: 780px;
+      margin: 2rem auto;
+      background: var(--surface-color);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+      padding: 2.5rem 3rem;
+    }
+
+    /* ── Header ──────────────────────────────────────────────── */
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .sender-info h2 {
+      font-size: 1.3rem;
+      color: var(--heading-color);
+      margin-bottom: 0.25rem;
+    }
+
+    .sender-info p {
+      font-size: 0.85rem;
+      color: var(--muted-color);
+      margin: 0.1rem 0;
+    }
+
+    .sender-info a { color: var(--accent-color); text-decoration: none; }
+    .sender-info a:hover { text-decoration: underline; }
+
+    .invoice-badge {
+      text-align: right;
+    }
+
+    .invoice-badge h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--accent-color);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+
+    .invoice-meta { font-size: 0.85rem; color: var(--muted-color); }
+    .invoice-meta td { padding: 0.15rem 0; }
+    .invoice-meta td:first-child { font-weight: 600; color: var(--text-color); padding-right: 0.8rem; text-align: right; }
+
+    .divider {
+      border: none;
+      border-top: 2px solid var(--accent-color);
+      margin: 1.2rem 0;
+    }
+
+    /* ── Bill To ─────────────────────────────────────────────── */
+    .bill-to { margin-bottom: 1.5rem; }
+
+    .bill-to .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted-color);
+      margin-bottom: 0.25rem;
+    }
+
+    .bill-to .client-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--heading-color);
+    }
+
+    .bill-to .client-address {
+      font-size: 0.85rem;
+      color: var(--muted-color);
+    }
+
+    /* ── Items table ─────────────────────────────────────────── */
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .items-table th {
+      background: var(--table-header);
+      color: white;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+    }
+
+    .items-table th:nth-child(2),
+    .items-table th:nth-child(3),
+    .items-table th:nth-child(4) { text-align: right; }
+
+    .items-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--rule-color); }
+    .items-table td:nth-child(2),
+    .items-table td:nth-child(3),
+    .items-table td:nth-child(4) { text-align: right; white-space: nowrap; }
+
+    .items-table tbody tr:nth-child(even) td { background: var(--row-alt); }
+
+    /* ── Totals ──────────────────────────────────────────────── */
+    .totals {
+      display: flex;
+      justify-content: flex-end;
+      margin: 0.5rem 0 1.5rem;
+    }
+
+    .totals table { border-collapse: collapse; font-size: 0.9rem; }
+    .totals td { padding: 0.35rem 0.8rem; }
+    .totals td:first-child { font-weight: 600; text-align: right; }
+    .totals td:last-child { text-align: right; min-width: 6rem; }
+
+    .totals .total-row td {
+      border-top: 2px solid var(--heading-color);
+      background: var(--total-bg);
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    /* ── Notes / body ────────────────────────────────────────── */
+    .notes-divider {
+      border: none;
+      border-top: 1px solid var(--rule-color);
+      margin: 1rem 0;
+    }
+
+    .notes-section .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted-color);
+      margin-bottom: 0.3rem;
+    }
+
+    .notes-section p, .body-content p {
+      font-size: 0.85rem;
+      color: var(--muted-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .body-content { margin-top: 1rem; font-size: 0.9rem; }
+
+    /* ── Print ───────────────────────────────────────────────── */
+    @media print {
+      body { background: white; }
+      .page { box-shadow: none; margin: 0; padding: 1in; }
+    }
+
+    @media (max-width: 600px) {
+      .page { margin: 0; padding: 1.5rem; }
+      .invoice-header { flex-direction: column; }
+      .invoice-badge { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="invoice-header">
+    <div class="sender-info">
+      $if(author)$<h2>$author$</h2>$endif$
+      $if(address)$<p>$address$</p>$endif$
+      $if(email)$<p><a href="mailto:$email$">$email$</a>$if(phone)$ &middot; $phone$$endif$</p>$endif$
+    </div>
+    <div class="invoice-badge">
+      <h1>INVOICE</h1>
+      <table class="invoice-meta">
+        <tr><td>Invoice #:</td><td>$if(invoice-number)$$invoice-number$$else$&mdash;$endif$</td></tr>
+        <tr><td>Date:</td><td>$if(date)$$date$$else$&mdash;$endif$</td></tr>
+        <tr><td>Due Date:</td><td>$if(due-date)$$due-date$$else$&mdash;$endif$</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  $if(client)$
+  <div class="bill-to">
+    <div class="label">Bill To</div>
+    <div class="client-name">$client$</div>
+    $if(client-address)$<div class="client-address">$client-address$</div>$endif$
+  </div>
+  $endif$
+
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      $for(items)$
+      <tr>
+        <td>$items.description$</td>
+        <td>$items.quantity$</td>
+        <td>$items.rate$</td>
+        <td>$items.amount$</td>
+      </tr>
+      $endfor$
+    </tbody>
+  </table>
+
+  <div class="totals">
+    <table>
+      <tr><td>Subtotal:</td><td>$if(subtotal)$$subtotal$$else$&mdash;$endif$</td></tr>
+      $if(tax-rate)$
+      <tr><td>Tax ($tax-rate$):</td><td>$if(tax-amount)$$tax-amount$$else$&mdash;$endif$</td></tr>
+      $endif$
+      <tr class="total-row"><td>Total:</td><td>$if(total)$$total$$else$&mdash;$endif$</td></tr>
+    </table>
+  </div>
+
+  <hr class="notes-divider">
+
+  $if(notes)$
+  <div class="notes-section">
+    <div class="label">Notes</div>
+    <p>$notes$</p>
+  </div>
+  $endif$
+
+  <div class="body-content">
+    $body$
+  </div>
+
+</div>
+</body>
+</html>

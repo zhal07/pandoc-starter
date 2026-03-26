@@ -1,0 +1,139 @@
+% Invoice LaTeX Template
+% Renders line items from YAML frontmatter using pandoc for-loops
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage{ifxetex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{tabularx}
+
+\ifxetex
+  \usepackage{fontspec}
+  \setmainfont{FreeSans}[Ligatures=TeX]
+  \setsansfont{FreeSans}[Ligatures=TeX]
+\else
+  \usepackage{helvet}
+  \renewcommand{\familydefault}{\sfdefault}
+\fi
+
+\geometry{
+  letterpaper,
+  left=1.0in,
+  right=1.0in,
+  top=1.0in,
+  bottom=1.0in
+}
+
+% Midnight Galaxy palette
+\definecolor{headercolor}{RGB}{43,30,62}     % #2b1e3e Deep Purple
+\definecolor{accentcolor}{RGB}{74,78,143}    % #4a4e8f Cosmic Blue
+\definecolor{rulecolor}{RGB}{164,144,194}    % #a490c2 Lavender
+\definecolor{tableheaderbg}{RGB}{43,30,62}   % #2b1e3e Deep Purple
+\definecolor{rowalternate}{RGB}{245,243,252} % light silver-purple tint
+\definecolor{totalrowbg}{RGB}{230,230,250}   % #e6e6fa Silver
+
+% ── Contact separator ─────────────────────────────────────────────────────
+\newcommand{\sep}{\enspace{\color{rulecolor}\textbullet}\enspace}
+
+\hypersetup{
+  colorlinks=false,
+  hidelinks,
+  pdfborder={0 0 0},
+  pdftitle={Invoice $if(invoice-number)$$invoice-number$$endif$},
+  pdfauthor={$if(author)$$author$$endif$}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\pagestyle{empty}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% ══════════════════════════════════════════════════════════════════════════
+\begin{document}
+
+% ── Header: sender + invoice metadata ─────────────────────────────────────
+\noindent
+\begin{minipage}[t]{0.55\textwidth}
+  \raggedright
+  {\large\bfseries\color{headercolor} $if(author)$$author$$endif$}\\[0.3em]
+  {\small\color{black}
+    $if(address)$$address$\\$endif$
+    $if(email)$\href{mailto:$email$}{$email$}$endif$%
+    $if(phone)$\sep$phone$$endif$%
+  }
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.4\textwidth}
+  \raggedleft
+  {\LARGE\bfseries\color{accentcolor} INVOICE}\\[0.4em]
+  {\small
+    \begin{tabular}{r l}
+      \textbf{Invoice \#:} & $if(invoice-number)$$invoice-number$$else$—$endif$ \\
+      \textbf{Date:}       & $if(date)$$date$$else$—$endif$ \\
+      \textbf{Due Date:}   & $if(due-date)$$due-date$$else$—$endif$ \\
+    \end{tabular}
+  }
+\end{minipage}
+
+\vspace{0.5em}
+{\color{rulecolor}\hrule height 1.5pt}
+\vspace{1em}
+
+% ── Bill To block ─────────────────────────────────────────────────────────
+$if(client)$
+\noindent\textbf{\small BILL TO}\\[0.2em]
+{\normalsize\bfseries $client$}\\
+{\small $if(client-address)$$client-address$$endif$}
+
+\vspace{1em}
+$endif$
+
+% ── Line items table ──────────────────────────────────────────────────────
+\renewcommand{\arraystretch}{1.4}
+\noindent
+\begin{tabularx}{\textwidth}{X r r r}
+  \rowcolor{tableheaderbg}
+  \textcolor{white}{\textbf{\small DESCRIPTION}} &
+  \textcolor{white}{\textbf{\small QTY}} &
+  \textcolor{white}{\textbf{\small RATE}} &
+  \textcolor{white}{\textbf{\small AMOUNT}} \\
+  $for(items)$
+  $items.description$ & $items.quantity$ & $items.rate$ & $items.amount$ \\
+  $endfor$
+\end{tabularx}
+
+% ── Totals block ──────────────────────────────────────────────────────────
+\vspace{0.3em}
+\noindent\hfill
+\begin{tabular}{r r}
+  \textbf{Subtotal:} & $if(subtotal)$$subtotal$$else$—$endif$ \\
+  $if(tax-rate)$\textbf{Tax ($tax-rate$):} & $if(tax-amount)$$tax-amount$$else$—$endif$ \\$endif$
+  \midrule
+  \rowcolor{totalrowbg}
+  \textbf{\large Total:} & \textbf{\large $if(total)$$total$$else$—$endif$} \\
+\end{tabular}
+
+\vspace{1.5em}
+{\color{rulecolor}\hrule height 0.5pt}
+
+% ── Body (notes, payment terms, etc.) ─────────────────────────────────────
+$if(notes)$
+\vspace{0.8em}
+\noindent\textbf{\small NOTES}\\[0.2em]
+{\small $notes$}
+$endif$
+
+$body$
+
+\end{document}

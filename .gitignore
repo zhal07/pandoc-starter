@@ -1,0 +1,51 @@
+# Generated output
+output/
+
+# Stray build artifacts at project root (shouldn't exist, but just in case)
+/*.pdf
+/*.html
+/*.docx
+/*.txt
+
+# LaTeX temporary files
+*.aux
+*.log
+*.out
+*.toc
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.code-workspace
+
+# Backup files
+*.bak
+*.backup
+
+
+# Cursor IDE workspace files
+.cursor/
+
+# Repo management notes (not relevant to public users)
+TODO-repo-split.md
+
+# Personal documents (local only, never pushed)
+# Ignore everything in resumes/ and cover-letters/ except the samples
+documents/resumes/*
+!documents/resumes/sample-resume.md
+documents/cover-letters/*
+!documents/cover-letters/sample-cover-letter.md

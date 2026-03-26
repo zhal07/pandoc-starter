@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional resume for $author$">
+    <meta name="author" content="$author$">
+    <meta name="robots" content="index, follow">
+    $if(website)$<link rel="canonical" href="https://$website$">$endif$
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="$if(title)$$title$ - $endif$$author$">
+    <meta property="og:description" content="Professional resume for $author$">
+    $if(website)$<meta property="og:url" content="https://$website$">$endif$
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="$if(title)$$title$ - $endif$$author$">
+    <meta name="twitter:description" content="Professional resume for $author$">
+    <title>$if(title)$$title$ - $endif$$author$</title>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Midnight Galaxy Theme */
+        :root {
+            --primary-color: #2b1e3e;                /* Deep Purple - name, icons, headers, lines, bullets */
+            --accent-color:  #4a4e8f;                /* Cosmic Blue - accent elements */
+            --text-color: rgb(0, 0, 0);              /* Pure black - body text, job titles */
+            --light-gray: #e6e6fa;                   /* Silver - light background */
+            --medium-gray: #a490c2;                  /* Lavender - header separators */
+        }
+        
+        body {
+            font-family: 'FreeSans', 'Liberation Sans', Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f0eef5;
+            max-width: 8.5in;
+            margin: 1in auto;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Header Section - Premium styling with thin modern line */
+        .resume-header {
+            text-align: center;
+            margin-bottom: 1.5em;
+            padding-bottom: 1em;
+            border-bottom: 0.75px solid var(--primary-color);
+        }
+        
+        .resume-header .name {
+            font-size: 22pt;
+            font-weight: bold;
+            margin: 0 0 0.5em 0;
+            letter-spacing: 0.5pt;
+            color: var(--primary-color);
+            word-wrap: break-word;
+        }
+        
+        .contact-info {
+            font-size: 9.5pt;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+        
+        .contact-info i {
+            color: var(--primary-color);
+            margin-right: 0.3em;
+            width: 1em;
+            text-align: center;
+        }
+        
+        .contact-info .separator {
+            color: var(--medium-gray);
+            margin: 0 0.4em;
+        }
+        
+        .contact-info a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Section Headers - Colored with thin modern underline */
+        h2 {
+            font-size: 13pt;
+            font-weight: bold;
+            margin-top: 1.3em;
+            margin-bottom: 0.7em;
+            padding-bottom: 0.1em;
+            border-bottom: 0.75px solid var(--primary-color);
+            color: var(--primary-color);
+            letter-spacing: 0.5pt;
+            page-break-after: avoid;
+        }
+        
+        /* Job Titles - Bold with black */
+        h3 {
+            font-size: 10pt;
+            font-weight: bold;
+            margin-top: 0.9em;
+            margin-bottom: 0.2em;
+            color: var(--text-color);
+            page-break-after: avoid;
+        }
+        
+        /* Company Details - Italic with color */
+        h4 {
+            font-size: 10pt;
+            font-weight: normal;
+            font-style: italic;
+            margin-top: 0.15em;
+            margin-bottom: 0.3em;
+            color: var(--text-color);
+        }
+        
+        /* Content Spacing */
+        p {
+            margin-bottom: 0.7em;
+            text-align: left;
+            orphans: 3;
+            widows: 3;
+        }
+        
+        /* Enhanced Lists with colored bullets */
+        ul {
+            margin-left: 1.5em;
+            margin-bottom: 0.9em;
+            list-style-type: none;
+            page-break-inside: avoid;
+        }
+        
+        ul li {
+            position: relative;
+            padding-left: 0.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.6;
+            orphans: 2;
+            widows: 2;
+        }
+        
+        ul li::before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: -1em;
+        }
+        
+        strong {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        
+        em {
+            font-style: italic;
+        }
+        
+        /* Links - Functional but not visually distinct */
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Print Optimization - Simplified for ATS */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0.5in;
+                max-width: none;
+                background: white;
+            }
+            
+            .resume-header {
+                border-bottom: 0.75px solid #000000;
+            }
+            
+            h2 {
+                border-bottom: 0.75px solid #000000;
+                color: #000000;
+            }
+            
+            h3, h4, strong {
+                color: #000000;
+            }
+            
+            .contact-info, .contact-info a {
+                color: #000000;
+            }
+            
+            .contact-info i {
+                color: #000000;
+            }
+            
+            ul li::before {
+                color: #000000;
+            }
+            
+            /* Ensure proper page breaks */
+            h2, h3, h4 {
+                page-break-after: avoid;
+            }
+            
+            ul {
+                page-break-inside: avoid;
+            }
+            
+            /* Prevent orphans and widows */
+            p, li {
+                orphans: 3;
+                widows: 3;
+            }
+        }
+        
+        /* Screen-only enhancements */
+        @media screen {
+            body {
+                background: white;
+                box-shadow: 0 0 30px rgba(43,30,62,0.15);
+                padding: 0.6in;
+            }
+            
+            html {
+                scroll-behavior: smooth;
+            }
+            
+            /* Subtle hover effects on sections */
+            h3:hover {
+                color: var(--primary-color);
+                transition: color 0.2s ease;
+            }
+        }
+        
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            body {
+                margin: 0.5in auto;
+                padding: 0.5in;
+                font-size: 9pt;
+            }
+            
+            .resume-header .name {
+                font-size: 18pt;
+            }
+            
+            h2 {
+                font-size: 12pt;
+            }
+            
+            h3 {
+                font-size: 9.5pt;
+            }
+            
+            .contact-info {
+                font-size: 8.5pt;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-header" role="banner">
+        <h1 class="name">$author$</h1>
+        <div class="contact-info" role="contentinfo">
+            <div>
+                $if(location)$<span><i class="fa-solid fa-location-dot"></i>$location$</span>$endif$
+                $if(email)$<span class="separator">·</span><span><i class="fa-solid fa-envelope"></i><a href="mailto:$email$" aria-label="Email address">$email$</a></span>$endif$
+                $if(phone)$<span class="separator">·</span><span><i class="fa-solid fa-phone"></i>$phone$</span>$endif$
+                $if(nationality)$<span class="separator">·</span><span><i class="fa-solid fa-flag"></i>$nationality$</span>$endif$
+                $if(website)$<span class="separator">·</span><span><i class="fa-solid fa-globe"></i><a href="https://$website$" aria-label="Personal website" rel="noopener noreferrer">$website$</a></span>$endif$
+            </div>
+            $if(linkedin)$
+            <div style="margin-top: 0.3em;">
+                <span><i class="fa-brands fa-linkedin"></i><a href="https://$linkedin$" aria-label="LinkedIn profile" rel="noopener noreferrer">$linkedin$</a></span>
+                $if(github)$<span class="separator">·</span><span><i class="fa-brands fa-github"></i><a href="https://$github$" aria-label="GitHub profile" rel="noopener noreferrer">$github$</a></span>$endif$
+            </div>
+            $endif$
+        </div>
+    </div>
+    
+    <div class="resume-content" role="main">
+        $body$
+    </div>
+</body>
+</html>

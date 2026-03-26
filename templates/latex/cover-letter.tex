@@ -1,0 +1,114 @@
+% Cover Letter LaTeX Template
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage{ifxetex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{xcolor}
+
+% ── Font ──────────────────────────────────────────────────────────────────
+\ifxetex
+  \usepackage{fontspec}
+  \setmainfont{FreeSans}[Ligatures=TeX]
+  \setsansfont{FreeSans}[Ligatures=TeX]
+\else
+  \usepackage{helvet}
+  \renewcommand{\familydefault}{\sfdefault}
+\fi
+
+% ── Page geometry ─────────────────────────────────────────────────────────
+\geometry{
+  letterpaper,
+  left=1.25in,
+  right=1.25in,
+  top=1.0in,
+  bottom=1.0in
+}
+
+% ── Colors — Midnight Galaxy ──────────────────────────────────────────────
+\definecolor{headingcolor}{RGB}{43,30,62}    % #2b1e3e Deep Purple
+\definecolor{rulecolor}{RGB}{164,144,194}    % #a490c2 Lavender
+\definecolor{mutedcolor}{RGB}{120,106,150}   % muted lavender
+
+% ── Contact separator ─────────────────────────────────────────────────────
+\newcommand{\sep}{\enspace{\color{rulecolor}\textbullet}\enspace}
+
+% ── Hyperlinks ────────────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=false,
+  hidelinks,
+  pdfborder={0 0 0},
+  pdftitle={Cover Letter — $if(author)$$author$$endif$},
+  pdfauthor={$if(author)$$author$$endif$}
+}
+
+% ── Spacing ───────────────────────────────────────────────────────────────
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.9em}
+\linespread{1.2}
+\widowpenalty=10000
+\clubpenalty=10000
+\pagestyle{empty}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% ══════════════════════════════════════════════════════════════════════════
+\begin{document}
+
+% ── Sender block ──────────────────────────────────────────────────────────
+\begin{flushleft}
+  {\large\bfseries\color{headingcolor} $author$}\\[0.15em]
+  {\small\color{mutedcolor}
+    $if(location)$$location$$endif$%
+    $if(email)$\sep\href{mailto:$email$}{$email$}$endif$%
+    $if(phone)$\sep$phone$$endif$%
+    $if(website)$\sep\href{https://$website$}{$website$}$endif$%
+    $if(linkedin)$\sep\href{https://$linkedin$}{$linkedin$}$endif$%
+  }
+\end{flushleft}
+
+\vspace{0.3em}
+{\color{rulecolor}\hrule height 0.5pt}
+\vspace{1.2em}
+
+% ── Date ──────────────────────────────────────────────────────────────────
+$if(date)$
+$date$
+
+$endif$
+
+% ── Recipient block ───────────────────────────────────────────────────────
+$if(recipient)$
+$recipient$\\
+$endif$
+$if(recipient-title)$
+$recipient-title$\\
+$endif$
+$if(company)$
+$company$\\
+$endif$
+$if(recipient-address)$
+$recipient-address$
+$endif$
+
+$if(position)$
+\textbf{Re: $position$}
+
+$endif$
+
+% ── Body ──────────────────────────────────────────────────────────────────
+$body$
+
+% ── Closing ───────────────────────────────────────────────────────────────
+\vspace{1.5em}
+$if(closing)$$closing$$else$Sincerely$endif$,
+
+\vspace{2.5em}
+$author$
+
+\end{document}

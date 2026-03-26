@@ -1,0 +1,31 @@
+INVOICE $if(invoice-number)$$invoice-number$$endif$
+================================================================================
+
+From:
+  $author$
+$if(address)$  $address$$endif$
+$if(email)$  $email$$endif$
+$if(phone)$  $phone$$endif$
+
+Bill To:
+  $client$
+$if(client-address)$  $client-address$$endif$
+
+Date:     $date$
+$if(due-date)$Due Date: $due-date$$endif$
+
+--------------------------------------------------------------------------------
+ITEMS
+--------------------------------------------------------------------------------
+$for(items)$
+  $items.description$$if(items.quantity)$ | Qty: $items.quantity$$endif$$if(items.rate)$ | Rate: $items.rate$$endif$$if(items.amount)$ | Amount: $items.amount$$endif$
+$endfor$
+--------------------------------------------------------------------------------
+$if(subtotal)$Subtotal:  $subtotal$$endif$
+$if(tax-rate)$Tax ($tax-rate$): $tax-amount$$endif$
+Total:     $total$
+--------------------------------------------------------------------------------
+
+$if(notes)$Notes: $notes$$endif$
+
+$body$

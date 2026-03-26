@@ -1,0 +1,11 @@
+$title$
+$if(date)$Date: $date$$endif$
+$if(location)$Location: $location$$endif$
+
+$if(attendees)$Attendees:
+$for(attendees)$  - $attendees$
+$endfor$
+$endif$
+================================================================================
+
+$body$

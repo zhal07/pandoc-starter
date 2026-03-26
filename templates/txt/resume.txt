@@ -1,0 +1,7 @@
+$author$
+$if(email)$$email$$endif$$if(phone)$ | $phone$$endif$$if(location)$ | $location$$endif$
+$if(linkedin)$LinkedIn: $linkedin$$endif$$if(github)$ | GitHub: $github$$endif$$if(website)$ | Website: $website$$endif$
+
+================================================================================
+
+$body$
